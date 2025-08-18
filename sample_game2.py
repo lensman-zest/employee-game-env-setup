@@ -1,75 +1,64 @@
-import time
+# sample_game2.py
+
 import random
-import os
+from game_engine.timer import start_timer, stop_timer, get_time_difference
+from game_engine.score import calculate_score
+from game_engine.leaderboard import update_leaderboard, display_leaderboard
 
-LEADERBOARD_FILE = "leaderboard.txt"
-
-def get_score(reaction_time):
-    if reaction_time < 0.3:
-        return 100
-    elif reaction_time <= 0.6:
-        return 50
-    else:
-        return 10
-
-def save_to_leaderboard(name, average_time, score):
-    with open(LEADERBOARD_FILE, "a") as file:
-        file.write(f"{name},{average_time:.3f},{score}\n")
-
-def display_leaderboard():
-    if not os.path.exists(LEADERBOARD_FILE):
-        print("\n🏆 Leaderboard is empty!")
-        return
-    
-    print("\n🏆 Leaderboard:")
-    with open(LEADERBOARD_FILE, "r") as file:
-        records = [line.strip().split(",") for line in file.readlines()]
-    
-    # Sort by score descending, then avg time ascending
-    records.sort(key=lambda x: (-int(x[2]), float(x[1])))
-    
-    print(f"{'Rank':<5}{'Name':<15}{'Avg Time (s)':<15}{'Score':<10}")
-    print("-" * 45)
-    for i, (name, avg_time, score) in enumerate(records[:10], 1):
-        print(f"{i:<5}{name:<15}{avg_time:<15}{score:<10}")
+sentences = [
+    "The quick brown fox jumps over the lazy dog.",
+    "Typing is a useful skill for many professions.",
+    "Practice makes perfect in everything you do.",
+    "Always check your work before submitting it.",
+    "Consistency is the key to mastering anything.",
+    "Python is a versatile and powerful language.",
+    "Fast and accurate typing can save you time.",
+    "Errors are part of learning, don't fear them.",
+    "Focus on accuracy before increasing speed.",
+    "Great developers write clean and readable code.",
+    "Time management is crucial in daily life.",
+    "Success comes to those who work for it.",
+    "Communication is essential in a good team.",
+    "Debugging code can be frustrating but rewarding.",
+    "Challenges make you stronger and more resilient.",
+    "Always be open to learning new things.",
+    "Good habits lead to great achievements.",
+    "Patience and persistence conquer all problems.",
+    "A well-structured program is easy to maintain.",
+    "Comments help others understand your code."
+]
 
 def main():
-    print("🎮 Welcome to QuickTap Challenge!")
-    name = input("Enter your name: ").strip()
-    rounds = int(input("How many rounds do you want to play? "))
-    
-    reaction_times = []
-    total_score = 0
-    
-    for round_num in range(1, rounds + 1):
-        print(f"\nRound {round_num}: Get ready...")
-        time.sleep(random.randint(2, 5))
-        print("🔔 Press ENTER now!")
-        input()
-        start = time.perf_counter()
-        input("✅ Quick! Press ENTER again!\n")
-        end = time.perf_counter()
-        
-        reaction_time = end - start
-        reaction_times.append(reaction_time)
-        score = get_score(reaction_time)
-        total_score += score
-        
-        print(f"⏱️ Reaction time: {reaction_time:.3f} seconds")
-        print(f"🎯 Score this round: {score}")
-    
-    average_time = sum(reaction_times) / rounds
-    best_time = min(reaction_times)
-    worst_time = max(reaction_times)
-    
-    print(f"\n{name}, your average reaction time: {average_time:.3f} seconds")
-    print(f"⚡ Best time: {best_time:.3f} seconds")
-    print(f"🐢 Slowest time: {worst_time:.3f} seconds")
-    print(f"🏅 Total Score: {total_score}")
-    
-    save_to_leaderboard(name, average_time, total_score)
+    players = int(input("Enter number of players: "))
+    rounds = int(input("Enter number of rounds per player: "))
+
+    for _ in range(players):
+        name = input("\nEnter your name: ")
+        total_time = 0
+
+        for i in range(rounds):
+            sentence = random.choice(sentences)
+            print(f"\n{name}, round {i + 1}:")
+            print(f"Type this sentence:\n{sentence}")
+            input("Press Enter to start...")
+            start = start_timer()
+            typed = input(">> ")
+            end = stop_timer()
+            elapsed = get_time_difference(start, end)
+
+            if typed.strip() != sentence:
+                print("Incorrect typing! Time penalty added.")
+                elapsed += 2  # 2-second penalty
+
+            print(f"Round {i + 1} Time: {elapsed:.2f}s")
+            total_time += elapsed
+
+        avg_time = total_time / rounds
+        score = calculate_score(avg_time)
+        print(f"\nGame over for {name}! Average Time: {avg_time:.2f}s | Score: {score}")
+        update_leaderboard(name, avg_time, score)
+
     display_leaderboard()
-    print("🎉 Thanks for playing QuickTap Challenge!")
 
 if __name__ == "__main__":
     main()
