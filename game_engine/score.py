@@ -2,16 +2,13 @@
 Handles individual player scores.
 """
 
+# score.py
+
 def calculate_score(avg_time):
-    if avg_time <= 2:
-        return 100
-    elif avg_time <= 4:
-        return 90
-    elif avg_time <= 6:
-        return 80
-    elif avg_time <= 8:
-        return 70
-    elif avg_time <= 10:
-        return 60
-    else:
-        return 50
+    if avg_time <= 0:
+        return 0
+
+    # Score is inversely proportional to average time, scaled for readability
+    score = max(1000 - int(avg_time * 1000), 0)
+    return score
+

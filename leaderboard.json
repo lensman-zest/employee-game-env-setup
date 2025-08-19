@@ -1,14 +1,14 @@
-[
-    {
-        "name": "varshitha",
-        "avg_time": 0.1879432201385498
+{
+    "a": {
+        "score": 1753,
+        "total_time": 0.4977555274963379
     },
-    {
-        "name": "sahithi",
-        "avg_time": 0.2938354015350342
+    "b": {
+        "score": 930,
+        "total_time": 0.21078109741210938
     },
-    {
-        "name": "varshi",
-        "avg_time": 0.4085886478424072
+    "aa": {
+        "score": 0,
+        "total_time": 5.2542290687561035
     }
-]
+}
