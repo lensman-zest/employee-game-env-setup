@@ -1,37 +1,42 @@
-from game_engine.timer import start_timer, stop_timer, get_time_difference
+# sample_game1.py
+
+import time
+from game_engine.timer import Timer
 from game_engine.score import calculate_score
 from game_engine.leaderboard import update_leaderboard, display_leaderboard
 
-def play_game():
-    name = input("Enter your name: ")
-    rounds = int(input(f"Hi {name}, how many rounds would you like to play? "))
+def sample_game1(player_name, rounds):
+    print(f"\nWelcome, {player_name}! Get ready for Sample Game 1 🎮")
+    print("Your goal is to press Enter as fast as you can when prompted.\n")
 
     total_time = 0
-    for round_num in range(1, rounds + 1):
-        input(f"\nRound {round_num}: Press Enter to start...")
-        start = start_timer()
 
-        input("Press Enter to stop...")
-        end = stop_timer()
+    for i in range(1, rounds + 1):
+        input(f"Round {i}: Press Enter to start...")
+        print("Wait for it...")
+        time.sleep(1)  # short pause to avoid immediate Enter hit
+        input("Now! Press Enter as fast as you can!")
+        
+        timer = Timer()
+        timer.start()
+        input()  # Wait for the user's quick reaction
+        elapsed = timer.stop()
 
-        round_time = get_time_difference(start, end)
-        print(f"Time taken: {round_time}s")
-        total_time += round_time
+        print(f"⏱ Time taken: {elapsed:.3f} seconds\n")
+        total_time += elapsed
 
-    avg_time = round(total_time / rounds, 2)
-    score = calculate_score(avg_time)
+    average_time = total_time / rounds
+    score = calculate_score(average_time)
 
-    print(f"\nGame over for {name}! Average Time: {avg_time}s | Score: {score}")
-    update_leaderboard(name, avg_time, score)
+    print(f"\n✅ Game Over, {player_name}!")
+    print(f"🎯 Total Time: {total_time:.2f} seconds")
+    print(f"📊 Average Time per Round: {average_time:.2f} seconds")
+    print(f"🏅 Score: {score}")
 
-def main():
-    while True:
-        play_game()
-        choice = input("\nDo you want to play again? (yes/no): ").strip().lower()
-        if choice != 'yes':
-            break
-
+    update_leaderboard(player_name, score, total_time)
     display_leaderboard()
 
 if __name__ == "__main__":
-    main()
+    name = input("Enter your name: ")
+    rounds = int(input("How many rounds do you want to play? "))
+    sample_game1(name, rounds)
