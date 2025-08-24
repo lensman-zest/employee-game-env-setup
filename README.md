@@ -1,4 +1,3 @@
- 
 Game Overview:
 You control a character in a maze, trying to reach the goal. The game runs in loops of N seconds or N moves (e.g., 10 moves per loop).
 At the end of each loop, the maze resets, but your past actions are replayed by an “echo” (a ghost copy of your character).

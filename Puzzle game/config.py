@@ -1,0 +1,14 @@
+# Puzzle game/config.py
+
+TILE_SIZE = 32
+
+MAZE_WIDTH = 21   # Must be odd
+MAZE_HEIGHT = 15  # Must be odd
+
+SCREEN_WIDTH = TILE_SIZE * MAZE_WIDTH
+SCREEN_HEIGHT = TILE_SIZE * MAZE_HEIGHT
+
+# Colors
+COLOR_WALL = (30, 30, 30)
+COLOR_PATH = (220, 220, 220)
+
