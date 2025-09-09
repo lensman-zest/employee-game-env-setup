@@ -1,14 +1,17 @@
 {
-    "a": {
-        "score": 1753,
-        "total_time": 0.4977555274963379
+    "Laura": {
+        "score": 652,
+        "total_time": 0.6963932514190674,
+        "total_rounds": 2
     },
-    "b": {
-        "score": 930,
-        "total_time": 0.21078109741210938
+    "Ron": {
+        "score": 2050,
+        "total_time": 2.3373889923095703,
+        "total_rounds": 1
     },
-    "aa": {
-        "score": 0,
-        "total_time": 5.2542290687561035
+    "Hermoine": {
+        "score": 798,
+        "total_time": 1.01430344581604,
+        "total_rounds": 5
     }
 }
