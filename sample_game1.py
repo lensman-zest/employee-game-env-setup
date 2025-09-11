@@ -30,10 +30,11 @@ def sample_game1(player_name, rounds):
 
     print(f"\n✅ Game Over, {player_name}!")
     print(f"🎯 Total Time: {total_time:.2f} seconds")
+    print(f"🎯 Total Rounds: {rounds}")
     print(f"📊 Average Time per Round: {average_time:.2f} seconds")
     print(f"🏅 Score: {score}")
 
-    update_leaderboard(player_name, score, total_time)
+    update_leaderboard(player_name, score, total_time, rounds)
     display_leaderboard()
 
 if __name__ == "__main__":

@@ -46,16 +46,18 @@ def save_leaderboard(leaderboard):
     with open(LEADERBOARD_FILE, "w") as file:
         json.dump(leaderboard, file, indent=4)
 
-def update_leaderboard(player_name, new_score, new_time):
+def update_leaderboard(player_name, new_score, new_time, new_total_rounds):
     leaderboard = load_leaderboard()
 
     if player_name in leaderboard:
         leaderboard[player_name]["score"] += new_score
         leaderboard[player_name]["total_time"] += new_time
+        leaderboard[player_name]["total_rounds"] = new_total_rounds
     else:
         leaderboard[player_name] = {
             "score": new_score,
-            "total_time": new_time
+            "total_time": new_time,
+            "total_rounds": new_total_rounds
         }
 
     save_leaderboard(leaderboard)
@@ -74,5 +76,5 @@ def display_leaderboard():
     )
 
     for rank, (name, data) in enumerate(sorted_leaderboard, start=1):
-        print(f"{rank}. {name} - Score: {data['score']}, Total Time: {data['total_time']:.2f} sec")
+        print(f"{rank}. {name} - Score: {data['score']}, Total Time: {data['total_time']:.2f} sec, Total Rounds: {data['total_rounds']}")
 
