@@ -1,9 +1,12 @@
 # Puzzle game/config.py
 
-TILE_SIZE = 32
+TILE_SIZE = 35
+TILE_WIDTH = 40
+TILE_HEIGHT = 40
 
-MAZE_WIDTH = 21   # Must be odd
-MAZE_HEIGHT = 15  # Must be odd
+
+MAZE_WIDTH = 25   # Must be odd
+MAZE_HEIGHT = 19  # Must be odd
 
 SCREEN_WIDTH = TILE_SIZE * MAZE_WIDTH
 SCREEN_HEIGHT = TILE_SIZE * MAZE_HEIGHT
