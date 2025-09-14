@@ -60,14 +60,18 @@ class Player:
                 frames.append(frame)
         return frames
 
-    def move(self, dx, dy, maze):
+    def move(self, dx, dy, maze, doors):
         x, y = self.position
         nx, ny = x + dx, y + dy
         if 0 <= nx < len(maze[0]) and 0 <= ny < len(maze):
-            if maze[ny][nx] == 0:
-                self.position = (nx, ny)
-                self.advance_frame()
-                return True
+            if maze[ny][nx] != 0:
+                return False
+            for door in doors:
+                if (nx, ny) == door.position and not door.is_open:
+                    return False
+            self.position = (nx, ny)
+            self.advance_frame()
+            return True
         return False
 
     def advance_frame(self):
@@ -82,18 +86,29 @@ class Player:
         frames = self.frames[self.state]
         if frames:
             frame = frames[self.frame_index]
-
             original_width, original_height = frame.get_size()
             scale_w = self.maze_tile_width / original_width
             scale_h = self.maze_tile_height / original_height
             scale = min(scale_w, scale_h)
-
             new_width = int(original_width * scale)
             new_height = int(original_height * scale)
-
             frame_scaled = pygame.transform.smoothscale(frame, (new_width, new_height))
-
             offset_x = (self.maze_tile_width - new_width) // 2
             offset_y = (self.maze_tile_height - new_height) // 2
+            screen.blit(frame_scaled, (xpix + offset_x, ypix + offset_y))
 
+    def draw_at(self, screen, pixel_pos):
+        xpix, ypix = pixel_pos
+        frames = self.frames[self.state]
+        if frames:
+            frame = frames[self.frame_index]
+            original_width, original_height = frame.get_size()
+            scale_w = self.maze_tile_width / original_width
+            scale_h = self.maze_tile_height / original_height
+            scale = min(scale_w, scale_h)
+            new_width = int(original_width * scale)
+            new_height = int(original_height * scale)
+            frame_scaled = pygame.transform.smoothscale(frame, (new_width, new_height))
+            offset_x = (self.maze_tile_width - new_width) // 2
+            offset_y = (self.maze_tile_height - new_height) // 2
             screen.blit(frame_scaled, (xpix + offset_x, ypix + offset_y))
